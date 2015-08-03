@@ -7,12 +7,35 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_my_location"
-        android:text="My Location"
-        />
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_my_location"
+            android:text="My Location"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_clusters"
+            android:text="Preview Clusters"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_get_direc"
+            android:text="Directions"
+            />
+
+    </LinearLayout>
+
 
     <fragment
         class="com.google.android.gms.maps.MapFragment"

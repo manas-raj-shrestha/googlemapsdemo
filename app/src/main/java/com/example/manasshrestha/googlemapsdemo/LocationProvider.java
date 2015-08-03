@@ -57,7 +57,9 @@ public class LocationProvider implements LocationListener {
             } else {
                 this.canGetLocation = true;
                 // First get location from Network Provider
+                android.util.Log.e("from network","from network");
                 if (isNetworkEnabled) {
+
                     locationManager.requestLocationUpdates(
                             locationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
@@ -74,7 +76,9 @@ public class LocationProvider implements LocationListener {
                 }
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
+                    android.util.Log.e("from gps","from gps");
                     if (location == null) {
+
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
