@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.SphericalUtil;
@@ -20,7 +21,7 @@ import model.MyLocations;
 
 
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback {
-    Button btnMyLocation, btnPreviewCluster,btnDirec;
+    Button btnMyLocation, btnPreviewCluster, btnDirec;
     public GoogleMap googleMap;
     LocationProvider locationProvider;
     // Declare a variable for the cluster manager.
@@ -32,67 +33,70 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        btnMyLocation = (Button) findViewById(R.id.btn_my_location);
-        btnPreviewCluster = (Button) findViewById(R.id.btn_clusters);
-        btnDirec = (Button) findViewById(R.id.btn_get_direc);
-
-        btnDirec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             JSONAsyncTask jsonAsyncTask = new JSONAsyncTask(MainActivity.this);
-                jsonAsyncTask.execute();
-
-            }
-        });
-
-        btnMyLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                locationProvider = new LocationProvider(MainActivity.this);
-
-                Log.e("lat long", locationProvider.getLatitude() + " " + locationProvider.getLongitude());
-
-                LatLng sydney = new LatLng(locationProvider.getLatitude(), locationProvider.getLongitude());
-
-                googleMap.setMyLocationEnabled(true);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-
-                googleMap.addMarker(new MarkerOptions()
-                        .title("My Current Location.")
-                        .snippet("This is where the leapfroggers reside.")
-                        .position(sydney));
-
-                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-            }
-        });
-
-        btnPreviewCluster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setUpClusterer();
-            }
-        });
+//        MapFragment mapFragment = (MapFragment) getFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+//
+//        btnMyLocation = (Button) findViewById(R.id.btn_my_location);
+//        btnPreviewCluster = (Button) findViewById(R.id.btn_clusters);
+//        btnDirec = (Button) findViewById(R.id.btn_get_direc);
+//
+//        btnDirec.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//             JSONAsyncTask jsonAsyncTask = new JSONAsyncTask(MainActivity.this);
+//                jsonAsyncTask.execute();
+//
+//            }
+//        });
+//
+//        btnMyLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                locationProvider = new LocationProvider(MainActivity.this);
+//
+//                Log.e("lat long", locationProvider.getLatitude() + " " + locationProvider.getLongitude());
+//
+//                LatLng sydney = new LatLng(locationProvider.getLatitude(), locationProvider.getLongitude());
+//
+//                googleMap.setMyLocationEnabled(true);
+//                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+//
+//                googleMap.addMarker(new MarkerOptions()
+//                        .title("My Current Location.")
+//                        .snippet("This is where the leapfroggers reside.")
+//                        .position(sydney));
+//
+//                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//
+//            }
+//        });
+//
+//        btnPreviewCluster.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setUpClusterer();
+//            }
+//        });
 
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
 
-        LatLng thamel = new LatLng(27.712066, 85.309331);
+        LatLng newYork = new LatLng(40.749, -73.9);
 
         map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(thamel, 13));
+
+        CameraPosition cameraPosition = CameraPosition.builder().target(newYork).zoom(17).tilt(64).build();
+
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         map.addMarker(new MarkerOptions()
                 .title("Home Town")
                 .snippet("Enjoy the vibe!!!")
-                .position(thamel));
+                .position(newYork));
 
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
@@ -138,8 +142,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
      * uses spherical utils from google utils to calculate distance between two points
      * returns distance in meters
      */
-    private Double calculateDistance(){
-       return SphericalUtil.computeDistanceBetween(new LatLng(27.712066, 85.309331), new LatLng(29.712066, 89.309331));
+    private Double calculateDistance() {
+        return SphericalUtil.computeDistanceBetween(new LatLng(27.712066, 85.309331), new LatLng(29.712066, 89.309331));
     }
 
 }
